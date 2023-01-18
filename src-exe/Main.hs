@@ -1,23 +1,27 @@
 {-# LANGUAGE OverloadedStrings #-}  -- allows "string literals" to be Text
 import           Control.Monad (when, void)
 import           UnliftIO.Concurrent
-import           Data.Text (isPrefixOf, toLower, Text)
+import           Data.Text (isPrefixOf, toLower, Text, pack)
 import qualified Data.Text.IO as TIO
 
 import           Discord
 import           Discord.Types
 import qualified Discord.Requests as R
 
+import           System.Environment (getEnv)
+
 -- | Replies "pong" to every message that starts with "ping"
-pingpongExample :: IO ()
-pingpongExample = do
+main :: IO ()
+main = do
+    tok <- getEnv "BOT_TOKEN"
     userFacingError <- runDiscord $ def
-             { discordToken = "Bot ZZZZZZZZZZZZZZZZZZZ"
+             { discordToken = pack tok
              , discordOnEvent = eventHandler
              , discordOnLog = \s -> TIO.putStrLn s >> TIO.putStrLn ""
              } -- if you see OnLog error, post in the discord / open an issue
 
     TIO.putStrLn userFacingError
+    --threadDelay (2 * 10^6)
     -- userFacingError is an unrecoverable error
     -- put normal 'cleanup' code in discordOnEnd (see examples)
 
