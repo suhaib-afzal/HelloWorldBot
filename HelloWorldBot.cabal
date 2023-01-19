@@ -67,7 +67,10 @@ executable HelloWorldBot
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.16.3.0, discord-haskell, unliftio, text
+    build-depends:    base ^>=4.16.3.0,
+                      discord-haskell,
+                      unliftio,
+                      text
 
 
     -- Directories containing source files.
